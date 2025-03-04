@@ -25,7 +25,7 @@ import CustomHeader from '../Component/CustomHeader';
 import {BASE_URL} from '../../../../Network/Urls';
 import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
-import {setEvents} from '../../../../Redux/Reducers/AppReducers';
+import {setEvents, setIsLoader} from '../../../../Redux/Reducers/AppReducers';
 import {AppRootStore} from '../../../../Redux/store/AppStore';
 import EventModal from '../Component/EventModal';
 
@@ -56,6 +56,7 @@ const CalenderScreen = (props: ScreenProps) => {
 
   const fetchEvents = async () => {
     try {
+      dispatch(setIsLoader(true));
       const response = await axios.get(BASE_URL + 'events');
       let eventData = response.data.reduce((acc: any, event: any) => {
         acc[event.date] = {
@@ -74,10 +75,11 @@ const CalenderScreen = (props: ScreenProps) => {
         dotColor: AppColors.white.white,
         details: eventData[today]?.details || 'No events today',
       };
-
       dispatch(setEvents(eventData));
+      dispatch(setIsLoader(false));
     } catch (error) {
       console.error('Error fetching events:', error);
+      dispatch(setIsLoader(false));
     }
   };
 
