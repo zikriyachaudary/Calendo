@@ -1,10 +1,8 @@
 import {
   FlatList,
   Image,
-  Modal,
   Platform,
   SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
